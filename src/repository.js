@@ -37,7 +37,6 @@ export class InMemoryEventRepository extends EventRepository{
         this._events = events;
     }
 
-
     getAll() {
         return this._events.slice();
     }

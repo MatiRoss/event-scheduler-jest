@@ -1,4 +1,3 @@
-
 import EventRepository from "./repository";
 import Event from "./models";
 
@@ -30,16 +29,24 @@ export default class EventService {
      * Get the first upcomming event
      * @return {null | Event}
      */
-    getFirstEvent() {
-        return null; //TODO
+    getFirstEvent(today) {
+        let allUpcomingEvents = this.getEvents().filter(evt => evt.startTime > today)
+        allUpcomingEvents.sort(function (a, b) {
+            return new Date(a.startTime) - new Date(b.startTime)
+        });
+        return allUpcomingEvents[0]
     }
 
     /**
      * Get the last upcomming event
      * @return {null | Event}
      */
-    getLastEvent() {
-        return null; //TODO
+    getLastEvent(today) {
+        let allUpcomingEvents = this.getEvents().filter(evt => evt.startTime > today)
+        allUpcomingEvents.sort(function (a, b) {
+            return new Date(b.startTime) - new Date(a.startTime)
+        });
+        return allUpcomingEvents[0]
     }
 
     /**
@@ -47,7 +54,12 @@ export default class EventService {
      * @return {null | Event}
      */
     getLongestEvent() {
-        return null; //TODO
+        let longestEvent = {}
+        this.getEvents().forEach((evt => {
+            const diffTime = Math.abs(evt.endTime - evt.startTime);
+            const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
+            console.log(diffHours)
+        }))
     }
 
     /**
@@ -97,5 +109,5 @@ export default class EventService {
         let now = Date.now();
         return this.hasEventOn(new Date(now));
     }
-    
+
 }
